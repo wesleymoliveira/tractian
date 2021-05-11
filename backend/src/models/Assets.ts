@@ -22,7 +22,7 @@ const AssetsSchema: Schema = new Schema({
     required: true,
     enum: ["Em Operaçao", "Em Alerta", "Em Parada"],
   },
-  healthLevel: { type: String, required: true },
+  healthLevel: { type: String, min: 0, max: 100, required: true },
   fromUnit: { type: Schema.Types.ObjectId, ref: "Units", required: true },
 });
 
