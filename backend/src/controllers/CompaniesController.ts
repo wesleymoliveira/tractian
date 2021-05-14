@@ -32,4 +32,25 @@ const deleteCompany = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createCompany, deleteCompany };
+const getCompany = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const companyName = req.params.name;
+
+    const company: CompaniesInterface[] = await Companies.find({
+      name: companyName,
+    }).populate(["unities", "users"]);
+    if (company[0]) {
+      res.status(200);
+      res.json(company);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createCompany, deleteCompany, getCompany };
