@@ -7,5 +7,6 @@ const routes = Router();
 routes.post("/companies/", CompaniesController.createCompany);
 routes.delete("/companies/:id/", CompaniesController.deleteCompany);
 routes.get("/companies/:name", CompaniesController.getCompany);
+routes.get("/companies/", CompaniesController.getAllCompanies);
 
 export default routes;

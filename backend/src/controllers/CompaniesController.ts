@@ -53,4 +53,18 @@ const getCompany = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createCompany, deleteCompany, getCompany };
+const getAllCompanies = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const companies: CompaniesInterface[] = await Companies.find({}).populate([
+      "unities",
+      "users",
+    ]);
+    res.json(companies);
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createCompany, deleteCompany, getCompany, getAllCompanies };
