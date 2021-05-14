@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as CompaniesController from "./controllers/CompaniesController";
 import * as UsersController from "./controllers/UsersController";
 import * as UnitsController from "./controllers/UnitsController";
+import * as AssetsController from "./controllers/AssetsController";
 
 const routes = Router();
 
@@ -22,5 +23,8 @@ routes.post("/:company/units/", UnitsController.createUnit);
 routes.delete("/:company/units/:id/", UnitsController.deleteUnit);
 routes.get("/:company/units/:unit/", UnitsController.getUnit);
 routes.get("/:company/units/", UnitsController.getUnitsByCompany);
+
+//assets
+routes.post("/:unit/assets", AssetsController.createAsset);
 
 export default routes;
