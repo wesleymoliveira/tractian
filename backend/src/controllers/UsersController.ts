@@ -29,5 +29,37 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     console.error("Error message:", err);
   }
 };
+const deleteUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const company = req.params.company;
 
-export { createUser };
+    let foundCompany = await Companies.findOne({
+      name: company,
+    });
+
+    if (Users.findById(id) && foundCompany) {
+      await Users.findByIdAndDelete(id);
+
+      if (foundCompany.users) {
+        var index = foundCompany.users.indexOf(id);
+        if (index > -1) {
+          foundCompany.users?.splice(index, 1);
+          foundCompany.save();
+        }
+      }
+
+      res.status(204);
+      res.end();
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUser, deleteUser };

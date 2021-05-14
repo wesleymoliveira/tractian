@@ -12,5 +12,6 @@ routes.get("/companies/", CompaniesController.getAllCompanies);
 
 //users
 routes.post("/:company/users/", UsersController.createUser);
+routes.delete("/:company/users/:id/", UsersController.deleteUser);
 
 export default routes;
