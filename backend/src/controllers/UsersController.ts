@@ -74,5 +74,25 @@ const getUser = async (req: Request, res: Response): Promise<void> => {
     console.error("Error message:", err);
   }
 };
+const getAllUsersFromCompany = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    let foundCompany = await Companies.findOne({
+      name: req.params.company,
+    });
 
-export { createUser, deleteUser, getUser };
+    const users: UsersInterface[] = await Users.find({
+      company: foundCompany?._id,
+    }).populate(["company"]);
+
+    res.json(users);
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUser, deleteUser, getUser, getAllUsersFromCompany };
