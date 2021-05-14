@@ -76,4 +76,24 @@ const getUnit = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createUnit, deleteUnit, getUnit };
+const getUnitsByCompany = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    let foundCompany = await Companies.findOne({
+      name: req.params.company,
+    });
+
+    const units: UnitsInterface[] = await Units.find({
+      company: foundCompany?._id,
+    }).populate(["assets", "company"]);
+    res.json(units);
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUnit, deleteUnit, getUnit, getUnitsByCompany };

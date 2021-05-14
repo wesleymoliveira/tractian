@@ -21,5 +21,6 @@ routes.get("/:company/users/", UsersController.getAllUsersFromCompany);
 routes.post("/:company/units/", UnitsController.createUnit);
 routes.delete("/:company/units/:id/", UnitsController.deleteUnit);
 routes.get("/:company/units/:unit/", UnitsController.getUnit);
+routes.get("/:company/units/", UnitsController.getUnitsByCompany);
 
 export default routes;
