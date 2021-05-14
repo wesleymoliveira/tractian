@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 mongoose
-  .connect("mongodb://localhost:27017/test", { useNewUrlParser: true })
+  .connect("mongodb://localhost:27017/test", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => {
     const app: Application = express();
 
