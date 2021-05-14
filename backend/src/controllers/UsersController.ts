@@ -61,5 +61,18 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     console.error("Error message:", err);
   }
 };
+const getUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const foundUser = await Users.findOne({
+      _id: req.params.user,
+    }).populate("company");
 
-export { createUser, deleteUser };
+    res.json(foundUser);
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUser, deleteUser, getUser };
