@@ -62,4 +62,18 @@ const deleteUnit = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createUnit, deleteUnit };
+const getUnit = async (req: Request, res: Response): Promise<void> => {
+  try {
+    let foundUnit = await Units.findOne({
+      _id: req.params.unit,
+    }).populate(["assets", "company"]);
+
+    res.json(foundUnit);
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUnit, deleteUnit, getUnit };
