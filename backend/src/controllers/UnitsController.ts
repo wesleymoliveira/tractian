@@ -29,4 +29,37 @@ const createUnit = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createUnit };
+const deleteUnit = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const company = req.params.company;
+
+    let foundCompany = await Companies.findOne({
+      name: company,
+    });
+
+    if (Units.findById(id) && foundCompany) {
+      await Units.findByIdAndDelete(id);
+
+      if (foundCompany.unities) {
+        var index = foundCompany.unities.indexOf(id);
+        if (index > -1) {
+          foundCompany.unities?.splice(index, 1);
+          foundCompany.save();
+        }
+      }
+
+      res.status(204);
+      res.end();
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createUnit, deleteUnit };
