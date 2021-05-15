@@ -2,7 +2,7 @@ import { Story, Meta } from '@storybook/react/types-6-0'
 import FormAddCompany from '.'
 
 export default {
-  title: 'FormAddCompany',
+  title: 'Form/FormAddCompany',
   component: FormAddCompany,
 } as Meta
 
