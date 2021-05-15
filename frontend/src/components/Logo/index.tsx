@@ -15,7 +15,7 @@ const Logo = ({
     <svg
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 158 48"
+      viewBox="0 0 100 10"
       role="img"
       aria-label="Tractian"
     >
