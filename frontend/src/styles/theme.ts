@@ -3,7 +3,7 @@ export default {
     container: '93.5rem',
   },
   border: {
-    radius: '1.5rem',
+    radius: '0.5rem',
   },
   font: {
     family: 'Roboto',
@@ -23,7 +23,7 @@ export default {
   },
   colors: {
     primary: '#1890ff',
-    secondary: '#002766',
+    secondary: '#096dd9',
     dark: '#06092B',
     mainBg: '#FEFEFE',
     white: '#FFFFFF',
