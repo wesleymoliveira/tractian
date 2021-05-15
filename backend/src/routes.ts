@@ -1,10 +1,13 @@
 import { Router } from "express";
+import multer from "multer";
+import multerConfig from "./config/multerConfig";
 import * as CompaniesController from "./controllers/CompaniesController";
 import * as UsersController from "./controllers/UsersController";
 import * as UnitsController from "./controllers/UnitsController";
 import * as AssetsController from "./controllers/AssetsController";
 
 const routes = Router();
+const upload = multer(multerConfig);
 
 //companies
 routes.post("/companies/", CompaniesController.createCompany);
@@ -25,7 +28,11 @@ routes.get("/:company/units/:unit/", UnitsController.getUnit);
 routes.get("/:company/units/", UnitsController.getUnitsByCompany);
 
 //assets
-routes.post("/:unit/assets", AssetsController.createAsset);
+routes.post(
+  "/:unit/assets",
+  upload.single("image"),
+  AssetsController.createAsset
+);
 routes.delete("/assets/:id/", AssetsController.deleteAsset);
 routes.get("/:unit/assets", AssetsController.getAllAssetsFromUnit);
 routes.get("/assets/:id/", AssetsController.getAsset);

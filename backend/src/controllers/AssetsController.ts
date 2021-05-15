@@ -13,7 +13,7 @@ const createAsset = async (req: Request, res: Response): Promise<void> => {
       const unitObjectId = new ObjectId(foundUnit._id);
 
       const asset: AssetsInterface = new Assets({
-        image: body.image,
+        image: req.file.filename,
         name: body.name,
         description: body.description,
         assetModel: body.assetModel,
