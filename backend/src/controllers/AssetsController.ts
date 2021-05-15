@@ -37,4 +37,36 @@ const createAsset = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createAsset };
+const deleteAsset = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id;
+
+    let foundUnit = await Units.findOne({
+      assets: id,
+    });
+
+    if (Assets.findById(id) && foundUnit) {
+      await Assets.findByIdAndDelete(id);
+
+      if (foundUnit.assets) {
+        var index = foundUnit.assets.indexOf(id);
+        if (index > -1) {
+          foundUnit.assets?.splice(index, 1);
+          foundUnit.save();
+        }
+      }
+
+      res.status(204);
+      res.end();
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createAsset, deleteAsset };
