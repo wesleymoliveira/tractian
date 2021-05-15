@@ -91,4 +91,24 @@ const getAllAssetsFromUnit = async (
   }
 };
 
-export { createAsset, deleteAsset, getAllAssetsFromUnit };
+const getAsset = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const foundAsset = await Assets.findOne({
+      _id: req.params.id,
+    }).populate("unit");
+
+    if (foundAsset) {
+      res.json(foundAsset);
+      res.status(200);
+    } else {
+      res.status(404);
+      res.json({ erro: "Ativo não encontrado" });
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createAsset, deleteAsset, getAllAssetsFromUnit, getAsset };
