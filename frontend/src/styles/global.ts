@@ -1,6 +1,18 @@
-import { createGlobalStyle } from 'styled-components'
+import {
+  createGlobalStyle,
+  GlobalStyleComponent,
+  css,
+  DefaultTheme,
+} from 'styled-components'
 
-const GlobalStyles = createGlobalStyle`
+type GlobalStyleProps = {
+  removeBg?: boolean
+}
+
+const GlobalStyles: GlobalStyleComponent<
+  GlobalStyleProps,
+  DefaultTheme
+> = createGlobalStyle`
 /* roboto-100 - latin */
 @font-face {
   font-family: 'Roboto';
@@ -58,16 +70,22 @@ const GlobalStyles = createGlobalStyle`
       box-sizing: inherit;
     }
   }
-  html {
-    font-size: 62.5%;
-  }
-  html, body, #__next {
-    height: 100%;
-  }
 
-  body {
-    font-family: Open-Sans, Helvetica, Sans-Serif, Roboto;
-  }
+  ${({ theme, removeBg }) => css`
+    html {
+      font-size: 62.5%;
+    }
+    body {
+      font-family: ${theme.font.family};
+      font-size: ${theme.font.sizes.medium};
+
+      ${!removeBg &&
+      css`
+        background-color: ${theme.colors.mainBg};
+      `}
+    }
+  `}
+
 `
 
 export default GlobalStyles
