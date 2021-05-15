@@ -3,12 +3,12 @@
   "short_name": "React",
   "icons": [
     {
-      "src": "/img/icon-192.png",
+      "src": "/img/favicon-ia",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/img/icon-512.png",
+      "src": "/img/favicon-ia.png",
       "type": "image/png",
       "sizes": "512x512"
     }
