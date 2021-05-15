@@ -69,4 +69,26 @@ const deleteAsset = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createAsset, deleteAsset };
+const getAllAssetsFromUnit = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    let foundUnit = await Units.findOne({
+      _id: req.params.unit,
+    });
+    if (foundUnit) {
+      const assets: AssetsInterface[] = await Assets.find({
+        unit: foundUnit?._id,
+      }).populate("unit");
+
+      res.json(assets);
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+export { createAsset, deleteAsset, getAllAssetsFromUnit };

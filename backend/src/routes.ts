@@ -27,5 +27,6 @@ routes.get("/:company/units/", UnitsController.getUnitsByCompany);
 //assets
 routes.post("/:unit/assets", AssetsController.createAsset);
 routes.delete("/assets/:id/", AssetsController.deleteAsset);
+routes.get("/:unit/assets", AssetsController.getAllAssetsFromUnit);
 
 export default routes;
