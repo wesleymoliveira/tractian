@@ -12,6 +12,7 @@ export type TextFieldProps = {
   iconPosition?: IconPositions
   disabled?: boolean
   error?: string
+  as?: React.ElementType
 } & InputHTMLAttributes<HTMLInputElement>
 
 const TextField = ({
