@@ -10,6 +10,7 @@ import Logo from 'components/Logo'
 import * as S from './styles'
 import Button from 'components/Button'
 import MediaMatch from 'components/MediaMatch'
+import UserDropdown from 'components/UserDropdown'
 
 export type MenuProps = {
   username?: string | null
@@ -55,7 +56,7 @@ const Menu = ({ username = '' }: MenuProps) => {
                   <Button as="a">Login</Button>
                 </Link>
               ) : (
-                <span>{username}</span>
+                <UserDropdown username={username} />
               )}
             </MediaMatch>
           </S.MenuGroup>
