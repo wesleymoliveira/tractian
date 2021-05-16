@@ -37,6 +37,7 @@ const Select = ({
         {!!icon && <S.Icon>{icon}</S.Icon>}
         <S.Input
           type="text"
+          onChange={onChange}
           value={value}
           name={name}
           {...(label ? { id: name } : {})}

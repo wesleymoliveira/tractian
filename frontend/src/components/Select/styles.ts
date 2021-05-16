@@ -17,6 +17,7 @@ export const wrapperModifiers = {
 export const InputWrapper = styled.div<SelectProps>`
   ${({ theme, label, fullWidth }) => css`
     display: flex;
+    color: ${theme.colors.primary};
     background: ${theme.colors.white};
     border-radius: ${theme.border.radius};
     padding: 0 ${theme.spacings.xsmall};
