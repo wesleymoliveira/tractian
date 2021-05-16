@@ -1,8 +1,12 @@
+import { useState } from 'react'
+import { signIn } from 'next-auth/client'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Select from 'components/Select'
 import Heading from 'components/Heading'
 import Logo from 'components/Logo'
+import Button from 'components/Button'
 import * as S from './styles'
-import { useState } from 'react'
 
 export type CompaniesProps = {
   name: string
@@ -11,11 +15,27 @@ export type CompaniesProps = {
 export type CompaniesTemplateProps = { companies: CompaniesProps[] }
 
 const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
-  const [formValues, setFormValues] = useState({ company: '' })
+  const [formValues, setFormValues] = useState({ name: '' })
+  const { push } = useRouter()
 
   const handleInput = (field: string, value: string) => {
     setFormValues((s) => ({ ...s, [field]: value }))
   }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+
+    const result = await signIn('credentials', {
+      ...formValues,
+      redirect: false,
+      callbackUrl: '/',
+    })
+    if (result?.url) {
+      return push(result?.url)
+    }
+    console.error('Verifique as credenciais.')
+  }
+
   return (
     <S.Wrapper>
       <S.BannerBlock>
@@ -41,19 +61,30 @@ const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
             Login
           </Heading>
 
-          <Select
-            name="Empresa"
-            onInputChange={(v) => handleInput('company', v)}
-            value={formValues.company}
-            label="Empresa"
-            type="text"
-          >
-            {companies.map((company) => (
-              <option key={company.name} value={company.name}>
-                {company.name.toUpperCase()}
-              </option>
-            ))}
-          </Select>
+          <form onSubmit={handleSubmit}>
+            <Select
+              name="Empresa"
+              onInputChange={(v) => handleInput('name', v)}
+              value={formValues.name}
+              label="Empresa"
+              type="text"
+            >
+              {companies.map((company) => (
+                <option key={company.name} value={company.name}>
+                  {company.name.toUpperCase()}
+                </option>
+              ))}
+            </Select>
+            <Button type="submit" fullWidth>
+              Fazer login
+            </Button>
+            <Link href="/sign-up" passHref>
+              <Button minimalist as="a">
+                Ainda não cadastrou sua empresa?
+                <strong> Cadastre agora!</strong>
+              </Button>
+            </Link>
+          </form>
         </S.ContentWrapper>
       </S.ContentBlock>
     </S.Wrapper>
