@@ -1,5 +1,6 @@
 import Dropdown from 'components/Dropdown'
 import * as S from './styles'
+import { signOut } from 'next-auth/client'
 import { AccountCircle, ExitToApp } from '@styled-icons/material-outlined'
 import { ChevronDown } from '@styled-icons/boxicons-regular/ChevronDown'
 import Link from 'next/link'
@@ -26,11 +27,7 @@ const UserDropdown = ({ username }: UserDropdownProps) => (
         </S.WrapperLink>
       </Link>
 
-      <S.WrapperLink
-        role="button"
-        onClick={() => console.log('teste')}
-        title="Sign out"
-      >
+      <S.WrapperLink role="button" onClick={() => signOut()} title="Sair">
         <ExitToApp />
         <span>Sair</span>
       </S.WrapperLink>
