@@ -11,7 +11,7 @@ export const Nav = styled.nav`
     }
   `}
 `
-export const Username = styled.span`
+export const Companyname = styled.span`
   ${({ theme }) => css`
     padding: 0 ${theme.spacings.xxsmall};
   `}

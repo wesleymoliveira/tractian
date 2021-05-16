@@ -5,22 +5,22 @@ import { AccountCircle, ExitToApp } from '@styled-icons/material-outlined'
 import { ChevronDown } from '@styled-icons/boxicons-regular/ChevronDown'
 import Link from 'next/link'
 
-export type UserDropdownProps = {
-  username: string
+export type CompanyDropdownProps = {
+  companyName: string
 }
 
-const UserDropdown = ({ username }: UserDropdownProps) => (
+const CompanyDropdown = ({ companyName }: CompanyDropdownProps) => (
   <Dropdown
     title={
       <>
         <AccountCircle size={24} />
-        <S.Username>{username}</S.Username>
+        <S.Companyname>{companyName}</S.Companyname>
         <ChevronDown size={24} />
       </>
     }
   >
     <S.Nav>
-      <Link href="/users/profile" passHref>
+      <Link href="/companys/profile" passHref>
         <S.WrapperLink>
           <AccountCircle />
           <span>Meu perfil</span>
@@ -35,4 +35,4 @@ const UserDropdown = ({ username }: UserDropdownProps) => (
   </Dropdown>
 )
 
-export default UserDropdown
+export default CompanyDropdown
