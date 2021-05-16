@@ -16,6 +16,7 @@ export type CompaniesTemplateProps = { companies: CompaniesProps[] }
 
 const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
   const [formValues, setFormValues] = useState({ name: '' })
+  const [loading, setloading] = useState(false)
   const { push } = useRouter()
 
   const handleInput = (field: string, value: string) => {
@@ -24,6 +25,7 @@ const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+    setloading(true)
 
     const result = await signIn('credentials', {
       ...formValues,
@@ -33,6 +35,8 @@ const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
     if (result?.url) {
       return push(result?.url)
     }
+
+    setloading(false)
     console.error('Verifique as credenciais.')
   }
 
@@ -75,15 +79,23 @@ const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
                 </option>
               ))}
             </Select>
-            <Button type="submit" fullWidth>
-              Fazer login
-            </Button>
-            <Link href="/sign-up" passHref>
-              <Button minimalist as="a">
-                Ainda não cadastrou sua empresa?
-                <strong> Cadastre agora!</strong>
-              </Button>
-            </Link>
+            {loading ? (
+              <S.LoadingWrapper>
+                <S.LoginLoading />
+              </S.LoadingWrapper>
+            ) : (
+              <>
+                <Button type="submit" fullWidth>
+                  Fazer login
+                </Button>
+                <Link href="/sign-up" passHref>
+                  <Button minimalist as="a">
+                    Ainda não cadastrou sua empresa?
+                    <strong> Cadastre agora!</strong>
+                  </Button>
+                </Link>
+              </>
+            )}
           </form>
         </S.ContentWrapper>
       </S.ContentBlock>

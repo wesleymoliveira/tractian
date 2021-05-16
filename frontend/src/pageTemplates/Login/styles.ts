@@ -105,3 +105,14 @@ export const ContentWrapper = styled.div`
     }
   `}
 `
+export const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+export const LoginLoading = styled.img.attrs(() => ({
+  src: '/img/dots.svg',
+  alt: 'Waiting...',
+}))`
+  width: 20rem;
+`
