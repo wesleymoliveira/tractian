@@ -6,8 +6,10 @@ import * as S from './styles'
 
 import Button from 'components/Button'
 
-import { FiPlus } from 'react-icons/fi'
-import { FormWrapper } from 'components/Form'
+import { FiPlus, FiXCircle } from 'react-icons/fi'
+import { FormError, FormWrapper } from 'components/Form'
+
+import { FieldErrors, validateAssetToAdd } from '../../utils/errorHelper'
 
 export type AssetProps = {
   name: string
@@ -20,6 +22,8 @@ export type AssetProps = {
 
 const FormAddAsset = () => {
   const router = useRouter()
+  const [formError, setFormError] = useState('')
+  const [fieldError, setFieldError] = useState<FieldErrors>({})
   const [formValues, setFormValues] = useState<AssetProps>({
     name: '',
     description: '',
@@ -46,6 +50,17 @@ const FormAddAsset = () => {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
+
+    setFormError('')
+    const errors = validateAssetToAdd(formValues)
+
+    if (Object.keys(errors).length) {
+      setFieldError(errors)
+      console.log(errors)
+      return
+    }
+
+    setFieldError({})
 
     const data = new FormData()
 
@@ -79,6 +94,11 @@ const FormAddAsset = () => {
 
   return (
     <FormWrapper>
+      {!!formError && (
+        <FormError>
+          <FiXCircle /> {formError}
+        </FormError>
+      )}
       <form onSubmit={handleSubmit}>
         <>
           <S.Label htmlFor="image">Adicione a imagem do ativo</S.Label>
@@ -95,6 +115,7 @@ const FormAddAsset = () => {
         </>
         <TextField
           name="Nome"
+          error={fieldError?.name}
           onInputChange={(v) => handleInput('name', v)}
           value={formValues.name}
           label="Nome"
@@ -103,14 +124,17 @@ const FormAddAsset = () => {
 
         <TextField
           name="Descrição"
+          error={fieldError?.description}
           onInputChange={(v) => handleInput('description', v)}
           value={formValues.description}
           label="Descrição"
           type="text"
+          as="textarea"
         />
 
         <TextField
           name="Modelo"
+          error={fieldError?.assetModel}
           onInputChange={(v) => handleInput('assetModel', v)}
           value={formValues.assetModel}
           label="Modelo"
@@ -119,6 +143,7 @@ const FormAddAsset = () => {
 
         <TextField
           name="Responsável"
+          error={fieldError?.responsible}
           onInputChange={(v) => handleInput('responsible', v)}
           value={formValues.responsible}
           label="Responsável"
@@ -126,6 +151,7 @@ const FormAddAsset = () => {
         />
         <TextField
           name="Status"
+          error={fieldError?.status}
           onInputChange={(v) => handleInput('status', v)}
           value={formValues.status}
           label="Status"
@@ -133,6 +159,7 @@ const FormAddAsset = () => {
         />
         <TextField
           name="Nível de Saúde"
+          error={fieldError?.healthLevel}
           onInputChange={(v) => handleInput('healthLevel', v)}
           value={formValues.healthLevel}
           label="Nível de Saúde"
