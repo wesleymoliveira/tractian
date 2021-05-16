@@ -1,6 +1,9 @@
 import { Router } from "express";
 import multer from "multer";
 import multerConfig from "./config/multerConfig";
+
+import authMiddleware from "./middlewares/auth";
+import * as SessionController from "./controllers/SessionController";
 import * as CompaniesController from "./controllers/CompaniesController";
 import * as UsersController from "./controllers/UsersController";
 import * as UnitsController from "./controllers/UnitsController";
@@ -9,11 +12,15 @@ import * as AssetsController from "./controllers/AssetsController";
 const routes = Router();
 const upload = multer(multerConfig);
 
+//sessions
+routes.post("/sessions", SessionController.createSession);
+
 //companies
+routes.get("/companies/", CompaniesController.getAllCompanies);
 routes.post("/companies/", CompaniesController.createCompany);
+routes.use(authMiddleware);
 routes.delete("/companies/:id/", CompaniesController.deleteCompany);
 routes.get("/companies/:name", CompaniesController.getCompany);
-routes.get("/companies/", CompaniesController.getAllCompanies);
 
 //users
 routes.post("/:company/users/", UsersController.createUser);
