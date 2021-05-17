@@ -1,5 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
-  max-width: 60rem;
+  ${({ theme }) => css`
+    border: 0.1rem solid ${theme.colors.lightGray};
+    max-width: 60rem;
+  `}
 `
