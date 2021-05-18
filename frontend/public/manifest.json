@@ -3,7 +3,7 @@
   "short_name": "React",
   "icons": [
     {
-      "src": "/img/favicon-ia",
+      "src": "/img/favicon-ia.png",
       "type": "image/png",
       "sizes": "192x192"
     },
