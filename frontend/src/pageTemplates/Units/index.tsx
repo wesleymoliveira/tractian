@@ -10,6 +10,8 @@ import * as S from './styles'
 
 import UnitCard from 'components/UnitCard'
 import Empty from 'components/Empty'
+import { useModal } from 'context/ModalContext'
+import ModalAddUnit from 'components/ModalAddUnit'
 
 export type UnitProps = {
   _id: string
@@ -19,6 +21,7 @@ export type UnitProps = {
 export type UnitsTemplateProps = { units: UnitProps[] }
 
 const Units = ({ units }: UnitsTemplateProps) => {
+  const { modalVisible, changeModalView } = useModal()
   const [searchValue, setSearchValue] = useState('')
 
   const handleSearchInputChanges = (
@@ -36,6 +39,7 @@ const Units = ({ units }: UnitsTemplateProps) => {
 
   return (
     <S.Wrapper>
+      <ModalAddUnit />
       <S.WrapperHeading>
         <Heading size="huge" color="black" lineLeft lineColor="primary">
           Unidades
@@ -49,10 +53,7 @@ const Units = ({ units }: UnitsTemplateProps) => {
             onChange={handleSearchInputChanges}
           ></TextField>
           <S.WrapperButton>
-            <Button
-              icon={<FiPlus size={45} />}
-              onClick={() => console.log('teste')}
-            >
+            <Button icon={<FiPlus size={45} />} onClick={changeModalView}>
               Adicionar
             </Button>
           </S.WrapperButton>
