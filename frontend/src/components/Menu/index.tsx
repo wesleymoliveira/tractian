@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
+
 import { Menu2 as MenuIcon } from '@styled-icons/remix-fill/Menu2'
-
-import { Search as SearchIcon } from '@styled-icons/material-outlined/Search'
-
 import { Close as CloseIcon } from '@styled-icons/material-outlined/Close'
 
 import Logo from 'components/Logo'
 import * as S from './styles'
 import Button from 'components/Button'
 import MediaMatch from 'components/MediaMatch'
-import UserDropdown from 'components/UserDropdown'
+import CompanyDropdown from 'components/CompanyDropdown'
+
+import { ExitToApp } from '@styled-icons/material-outlined'
+import { signOut } from 'next-auth/client'
 
 export type MenuProps = {
   username?: string | null
@@ -33,9 +34,6 @@ const Menu = ({ username = '' }: MenuProps) => {
 
         <MediaMatch greaterThan="medium">
           <S.MenuNav>
-            <Link href="/" passHref>
-              <S.MenuLink>Minha empresa</S.MenuLink>
-            </Link>
             <Link href="/units" passHref>
               <S.MenuLink>Unidades</S.MenuLink>
             </Link>
@@ -46,17 +44,13 @@ const Menu = ({ username = '' }: MenuProps) => {
         </MediaMatch>
         <>
           <S.MenuGroup>
-            <S.IconWrapper>
-              <SearchIcon aria-label="Search" />
-            </S.IconWrapper>
-
             <MediaMatch greaterThan="medium">
               {!username ? (
                 <Link href="/sign-in" passHref>
                   <Button as="a">Login</Button>
                 </Link>
               ) : (
-                <UserDropdown username={username} />
+                <CompanyDropdown companyName={username} />
               )}
             </MediaMatch>
           </S.MenuGroup>
@@ -67,9 +61,6 @@ const Menu = ({ username = '' }: MenuProps) => {
               onClick={() => setIsOpen(false)}
             />
             <S.MenuNav>
-              <Link href="/" passHref>
-                <S.MenuLink>Minha empresa</S.MenuLink>
-              </Link>
               <Link href="/units" passHref>
                 <S.MenuLink>Unidades</S.MenuLink>
               </Link>
@@ -79,11 +70,15 @@ const Menu = ({ username = '' }: MenuProps) => {
 
               {!!username && (
                 <>
-                  <Link href="/users/me" passHref>
-                    <S.MenuLink>Meu perfil</S.MenuLink>
+                  <Link href="/company/" passHref>
+                    <S.MenuLink>Minha empresa</S.MenuLink>
                   </Link>
                 </>
               )}
+              <S.MenuLink onClick={() => signOut()}>
+                <ExitToApp />
+                Sair
+              </S.MenuLink>
             </S.MenuNav>
 
             {!username && (
