@@ -6,5 +6,5 @@ export default {
   assetModel: 'ZQV-321',
   responsible: 'Mecânico1',
   status: 'Em Operação',
-  healthLevel: '97',
+  healthLevel: 97,
 }
