@@ -6,9 +6,7 @@ import mock from './mock'
 export default {
   title: 'AssetCard',
   component: AssetCard,
-  args: {
-    asset: mock,
-  },
+  args: mock,
 } as Meta
 
 export const Default: Story<AssetCardProps> = (args) => <AssetCard {...args} />

@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components'
 import media from 'styled-media-query'
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.article`
   ${({ theme }) => css`
     display: flex;
     border: 0.1rem solid ${theme.colors.lightGray};
-    min-height: 40rem;
-    max-width: 80rem;
+    height: 100%;
     flex-direction: column;
+    justify-content: center;
     padding: ${theme.spacings.xsmall};
   `}
 `

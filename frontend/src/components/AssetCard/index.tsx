@@ -1,7 +1,7 @@
 import Heading from 'components/Heading'
 import * as S from './styles'
 
-type Props = {
+export type AssetCardProps = {
   image: string
   name: string
   description: string
@@ -10,36 +10,41 @@ type Props = {
   status: string
   healthLevel: number
 }
-export type AssetCardProps = {
-  asset: Props
-}
 
-const AssetCard = ({ asset }: AssetCardProps) => (
+const AssetCard = ({
+  image,
+  assetModel,
+  description,
+  healthLevel,
+  name,
+  responsible,
+  status,
+}: AssetCardProps) => (
   <S.Wrapper>
     <S.titleWrapper>
       <Heading size="medium" color="black" lineLeft lineColor="primary">
-        {asset.name}
+        {name}
       </Heading>
     </S.titleWrapper>
     <S.ContentWrapper>
       <S.LeftBlock>
         <S.Image
-          src={`http://localhost:3333/images/${asset.image}`}
+          src={`http://localhost:3333/images/${image}`}
           alt={'Foto do Ativo'}
           role="img"
         />
       </S.LeftBlock>
       <S.RightBlock>
         <strong>Modelo:</strong>
-        <span>{asset.assetModel}</span>
+        <span>{assetModel}</span>
         <strong>Descrição:</strong>
-        <span>{asset.description}</span>
+        <span>{description}</span>
         <strong>Responsável:</strong>
-        <span>{asset.responsible}</span>
+        <span>{responsible}</span>
         <strong>Status:</strong>
-        <span>{asset.status}</span>
+        <span>{status}</span>
         <strong>Saúde:</strong>
-        <span>{asset.healthLevel}</span>
+        <span>{healthLevel}</span>
       </S.RightBlock>
     </S.ContentWrapper>
   </S.Wrapper>
