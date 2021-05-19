@@ -13,6 +13,8 @@ import CompanyDropdown from 'components/CompanyDropdown'
 import { ExitToApp } from '@styled-icons/material-outlined'
 import { signOut } from 'next-auth/client'
 
+import Notifications from 'components/Notifications'
+
 export type MenuProps = {
   username?: string | null
 }
@@ -34,23 +36,23 @@ const Menu = ({ username = '' }: MenuProps) => {
 
         <MediaMatch greaterThan="medium">
           <S.MenuNav>
-            <Link href="/units" passHref>
-              <S.MenuLink>Unidades</S.MenuLink>
-            </Link>
-            <Link href="/users" passHref>
-              <S.MenuLink>Usuários</S.MenuLink>
+            <Link href="/" passHref>
+              <S.MenuLink>Home</S.MenuLink>
             </Link>
           </S.MenuNav>
         </MediaMatch>
         <>
           <S.MenuGroup>
+            <Notifications />
             <MediaMatch greaterThan="medium">
               {!username ? (
                 <Link href="/sign-in" passHref>
                   <Button as="a">Login</Button>
                 </Link>
               ) : (
-                <CompanyDropdown companyName={username} />
+                <>
+                  <CompanyDropdown companyName={username} />
+                </>
               )}
             </MediaMatch>
           </S.MenuGroup>
@@ -61,13 +63,6 @@ const Menu = ({ username = '' }: MenuProps) => {
               onClick={() => setIsOpen(false)}
             />
             <S.MenuNav>
-              <Link href="/units" passHref>
-                <S.MenuLink>Unidades</S.MenuLink>
-              </Link>
-              <Link href="/users" passHref>
-                <S.MenuLink>Usuários</S.MenuLink>
-              </Link>
-
               {!!username && (
                 <>
                   <Link href="/company/" passHref>

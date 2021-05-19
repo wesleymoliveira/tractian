@@ -13,11 +13,14 @@ export const Wrapper = styled.menu`
 `
 
 export const LogoWrapper = styled.div`
-  ${media.lessThan('medium')`
+  ${({ theme }) => css`
+    margin-left: ${theme.spacings.xsmall};
+    ${media.lessThan('medium')`
     position: absolute;
     top: 2rem;
     left: 50%;
     transform: translateX(-50%);
+  `}
   `}
 `
 
