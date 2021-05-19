@@ -3,7 +3,6 @@ import { MdNotifications } from 'react-icons/md'
 import { parseISO, formatDistance } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 import * as S from './styles'
-import Empty from 'components/Empty'
 import { useSession } from 'next-auth/client'
 import Heading from 'components/Heading'
 
