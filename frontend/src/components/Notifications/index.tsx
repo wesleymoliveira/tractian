@@ -5,6 +5,7 @@ import pt from 'date-fns/locale/pt'
 import * as S from './styles'
 import Empty from 'components/Empty'
 import { useSession } from 'next-auth/client'
+import Heading from 'components/Heading'
 
 export type NotificationProps = {
   _id: string
@@ -109,7 +110,9 @@ const Notifications = () => {
               </S.Notification>
             ))
           ) : (
-            <Empty title="test" description="sa" />
+            <Heading size="small" color="white">
+              Não existem notificações para esta empresa.
+            </Heading>
           )}
         </S.Scroll>
       </S.NotificationList>
