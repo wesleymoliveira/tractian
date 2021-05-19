@@ -8,6 +8,7 @@ import * as CompaniesController from "./controllers/CompaniesController";
 import * as UsersController from "./controllers/UsersController";
 import * as UnitsController from "./controllers/UnitsController";
 import * as AssetsController from "./controllers/AssetsController";
+import * as NotificationsController from "./controllers/NotificationsController";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -43,5 +44,16 @@ routes.post(
 routes.delete("/assets/:id/", AssetsController.deleteAsset);
 routes.get("/:unit/assets", AssetsController.getAllAssetsFromUnit);
 routes.get("/assets/:id/", AssetsController.getAsset);
+
+//notifications
+routes.post(
+  "/:company/notifications/",
+  NotificationsController.createNotification
+);
+routes.put("/notifications/:id", NotificationsController.updateNotification);
+routes.get(
+  "/:company/notifications/",
+  NotificationsController.getNotifications
+);
 
 export default routes;
