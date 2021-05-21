@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from 'next'
 
-import protectedRoutes from 'utils/protected-routes'
+import protectedRoutes from '../../utils/protected-routes'
 
-import Units, { UnitProps, UnitsTemplateProps } from 'pageTemplates/Units'
+import Units, { UnitProps, UnitsTemplateProps } from '../../pageTemplates/Units'
 
 export default function UnitsPage(props: UnitsTemplateProps) {
   return <Units {...props} />

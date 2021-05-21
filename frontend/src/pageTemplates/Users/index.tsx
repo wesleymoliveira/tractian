@@ -12,6 +12,7 @@ import UserCard from 'components/UserCard'
 import Empty from 'components/Empty'
 import { useModal } from 'context/ModalContext'
 import ModalAddUser from 'components/ModalAddUser'
+import Base from '../Base'
 
 export type UserProps = {
   _id: string
@@ -38,41 +39,43 @@ const Users = ({ users }: UsersTemplateProps) => {
   }
 
   return (
-    <S.Wrapper>
-      <ModalAddUser />
-      <S.WrapperHeading>
-        <Heading size="huge" color="black" lineLeft lineColor="primary">
-          Usuários
-        </Heading>
-        <S.WrapperSearch>
-          <TextField
-            placeholder={'Buscar'}
-            name="search"
-            icon={<FiSearch size={45} />}
-            value={searchValue}
-            onChange={handleSearchInputChanges}
-          ></TextField>
-          <S.WrapperButton>
-            <Button icon={<FiPlus size={45} />} onClick={changeModalView}>
-              Adicionar
-            </Button>
-          </S.WrapperButton>
-        </S.WrapperSearch>
-      </S.WrapperHeading>
+    <Base>
+      <S.Wrapper>
+        <ModalAddUser />
+        <S.WrapperHeading>
+          <Heading size="huge" color="black" lineLeft lineColor="primary">
+            Usuários
+          </Heading>
+          <S.WrapperSearch>
+            <TextField
+              placeholder={'Buscar'}
+              name="search"
+              icon={<FiSearch size={45} />}
+              value={searchValue}
+              onChange={handleSearchInputChanges}
+            ></TextField>
+            <S.WrapperButton>
+              <Button icon={<FiPlus size={45} />} onClick={changeModalView}>
+                Adicionar
+              </Button>
+            </S.WrapperButton>
+          </S.WrapperSearch>
+        </S.WrapperHeading>
 
-      {users?.length ? (
-        <>
-          {users.map((user) => (
-            <UserCard key={user._id} _id={user._id} name={user.name} />
-          ))}
-        </>
-      ) : (
-        <Empty
-          title="Nenhum usuário encontrado!"
-          description="Verifique a sua busca ou cadastre novos usuários."
-        />
-      )}
-    </S.Wrapper>
+        {users?.length ? (
+          <>
+            {users.map((user) => (
+              <UserCard key={user._id} _id={user._id} name={user.name} />
+            ))}
+          </>
+        ) : (
+          <Empty
+            title="Nenhum usuário encontrado!"
+            description="Verifique a sua busca ou cadastre novos usuários."
+          />
+        )}
+      </S.Wrapper>
+    </Base>
   )
 }
 
