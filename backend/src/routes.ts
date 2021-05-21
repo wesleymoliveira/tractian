@@ -20,8 +20,8 @@ routes.post("/sessions", SessionController.createSession);
 routes.get("/companies/", CompaniesController.getAllCompanies);
 routes.post("/companies/", CompaniesController.createCompany);
 routes.use(authMiddleware);
+routes.get("/companies/:id", CompaniesController.getCompany);
 routes.delete("/companies/:id/", CompaniesController.deleteCompany);
-routes.get("/companies/:name", CompaniesController.getCompany);
 
 //users
 routes.post("/:company/users/", UsersController.createUser);
@@ -37,12 +37,13 @@ routes.get("/:company/units/", UnitsController.getUnitsByCompany);
 
 //assets
 routes.post(
-  "/:unit/assets",
+  "/:company/:unit/assets",
   upload.single("image"),
   AssetsController.createAsset
 );
 routes.delete("/assets/:id/", AssetsController.deleteAsset);
-routes.get("/:unit/assets", AssetsController.getAllAssetsFromUnit);
+routes.get("/assets/", AssetsController.getAllAssetsFromUnit);
+routes.get("/:company/assets", AssetsController.getAllAssetsFromCompany);
 routes.get("/assets/:id/", AssetsController.getAsset);
 
 //notifications
