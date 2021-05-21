@@ -4,7 +4,7 @@ export default {
   description:
     'Esta bomba e darca X e está localizada no segundo andar do setor Y.',
   assetModel: 'ZQV-321',
-  responsible: 'Mecânico1',
+  responsable: 'Mecânico1',
   status: 'Em Operação',
   healthLevel: 97,
 }
