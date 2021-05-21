@@ -1,3 +1,4 @@
+import NextNprogress from 'nextjs-progressbar'
 import { Provider as AuthProvider } from 'next-auth/client'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
@@ -20,6 +21,12 @@ function App({ Component, pageProps }: AppProps) {
             <meta name="description" content="Tractian" />
           </Head>
           <GlobalStyles />
+          <NextNprogress
+            color="#1890ff"
+            startPosition={0.3}
+            stopDelayMs={200}
+            height={5}
+          />
           <Component {...pageProps} />
         </AuthProvider>
       </ThemeProvider>
