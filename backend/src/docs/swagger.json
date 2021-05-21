@@ -1,0 +1,774 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Tractian - Test Wesley",
+    "description": "Documentação da API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "TRACTIAN - API",
+      "description": "-"
+    }
+  ],
+
+  "paths": {
+    "/sessions": {
+      "post": {
+        "tags": ["sessions"],
+        "summary": "Rota para gerar o token JWT a partir do nome da empresa",
+        "operationId": "createSession",
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sessions"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "x-codegen-request-body-name": "body"
+        }
+      }
+    },
+
+    "/companies": {
+      "post": {
+        "tags": ["companies"],
+        "summary": "Cria uma nova empresa (Antes de iniciar crei sua empresa para gerar a session)",
+        "operationId": "createCompany",
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/companies"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "users": [],
+                    "unities": [],
+                    "assets": [],
+                    "_id": "60a6fd7277f5683bc62d895c",
+                    "name": "tractian",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "get": {
+        "tags": ["companies"],
+        "summary": "Esta rota retorna todas as empresas cadastradas",
+        "operationId": "getAllCompanies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "users": [
+                        {
+                          "_id": "609e8e63e1ce0f0e4331ca09",
+                          "name": "empresa1user",
+                          "company": "609e8defe1ce0f0e4331c9fd",
+                          "__v": 0
+                        }
+                      ],
+                      "unities": [
+                        {
+                          "assets": ["609e8e27e1ce0f0e4331ca55"],
+                          "_id": "609e8e0ae1ce0f0e4331ca00",
+                          "name": "unitempresa11111111111111111111111",
+                          "company": "609e8defe1ce0f0e4331c9fd",
+                          "__v": 0
+                        },
+                        {
+                          "assets": [
+                            "60a684ac8028a40bfd70d9b4",
+                            "60a684b18028a40bfd70d9b5",
+                            "60a6a59034b1eb20c30e6888",
+                            "60a6bf257003b22bcb0e22f2",
+                            "60a6bf277003b22bcb0e22f3"
+                          ],
+                          "_id": "60a6668f6fa636099c5d0e80",
+                          "name": "unidateteste",
+                          "company": "609e8defe1ce0f0e4331c9fd",
+                          "__v": 7
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:_id": {
+      "delete": {
+        "tags": ["companies"],
+        "summary": "Apaga a empresa e suas referências em outras tabelas",
+        "operationId": "deleteCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da empresa a ser apagada",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/companies/:id": {
+      "get": {
+        "tags": ["companies"],
+        "summary": "Retorna todos os dados da empresa cadastrada",
+        "operationId": "getCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Informe a id a ser buscada",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/companies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/:company/units": {
+      "post": {
+        "tags": ["units"],
+        "summary": "Cria uma nova Unidade)",
+        "operationId": "createUnit",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "nome empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/units"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "assets": [],
+                    "_id": "60a6bbf5c658b32a352a96f1",
+                    "name": "unidade",
+                    "company": "609e8defe1ce0f0e4331c9fd",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "get": {
+        "tags": ["units"],
+        "summary": "Esta rota retorna todas unidades da empresas fornecida nos params",
+        "operationId": "getUnitsByCompany",
+        "parameters": [
+          {
+            "name": "companyname",
+            "in": "path",
+            "description": "Nome da empresa a ser buscada",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/:company/units/:id": {
+      "delete": {
+        "tags": ["units"],
+        "summary": "Apaga a unidade e suas referências em outras tabelas",
+        "operationId": "deleteUnit",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da empresa a ser apagada",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/:company/units/:unit": {
+      "get": {
+        "tags": ["units"],
+        "summary": "Retorna todos os dados da unidade buscada",
+        "operationId": "getCompany",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Informe a id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unit",
+            "in": "path",
+            "description": "Informe o id da unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/units"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/:company/:unit/assets": {
+      "post": {
+        "tags": ["assets"],
+        "summary": "Cria um novo ativo vinculado à empresa e unit fornecidas",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Informe a id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unit",
+            "in": "path",
+            "description": "Informe a id da unit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do ativo"
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "Imagem do ativo",
+                    "format": "binary"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Descrição do ativo"
+                  },
+                  "assetModel": {
+                    "type": "string",
+                    "description": "Modelo do ativo"
+                  },
+                  "responsable": {
+                    "type": "string",
+                    "description": "Responsável pelo ativo"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status do ativo: Em Operação, Em Alerta, Em Parada, Desligado"
+                  },
+                  "healthLevel": {
+                    "type": "number",
+                    "description": "de 0 até 100"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "users": [],
+                    "unities": [],
+                    "assets": [],
+                    "_id": "60a6fd7277f5683bc62d895c",
+                    "name": "tractian",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/assets/:id": {
+      "delete": {
+        "tags": ["assets"],
+        "summary": "Apaga o ativo e suas referências em outras collections",
+        "operationId": "deleteAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do ativo a ser apagado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          }
+        }
+      },
+      "get": {
+        "tags": ["assets"],
+        "summary": "Esta rota retorna todos os usuários relacionadas a empresa fornecida ",
+        "operationId": "getAsset",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do ativo a ser apagado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets": {
+      "get": {
+        "tags": ["assets"],
+        "summary": "Retorna todos os assets da unit informada",
+        "operationId": "getAllAssetsFromUnit",
+        "parameters": [
+          {
+            "name": "unit",
+            "in": "query",
+            "description": "Informe a unidade"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/assets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/:company/assets": {
+      "get": {
+        "tags": ["assets"],
+        "summary": "Retorna todos os dados do asset",
+        "operationId": "getAllAssetsFromCompany",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Informe a id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/assets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/:company/users/": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Esta rota retorna todos os usuários relacionadas a empresa fornecida ",
+        "operationId": "getAllUsersFromCompany",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Cria uma novo usuário)",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/users"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "assets": [],
+                    "_id": "60a6bbf5c658b32a352a96f1",
+                    "name": "unidade",
+                    "company": "609e8defe1ce0f0e4331c9fd",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/:company/users/:id": {
+      "delete": {
+        "tags": ["users"],
+        "summary": "Apaga o usuário e suas referências em outras collections",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do usuário a ser apagado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/:company/users/:user": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna todos os dados do usuario fornecido nos params",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Informe a id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "Informe a id do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "companies": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome da empresa",
+            "example": "tractian"
+          }
+        },
+        "xml": {
+          "name": "companies"
+        }
+      },
+      "sessions": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome da empresa",
+            "example": "tractian"
+          }
+        },
+        "xml": {
+          "name": "sessions"
+        }
+      },
+      "users": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário",
+            "example": "usuario"
+          }
+        },
+        "xml": {
+          "name": "users"
+        }
+      },
+      "units": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome da unidade",
+            "example": "tractian"
+          }
+        },
+        "xml": {
+          "name": "units"
+        }
+      },
+      "assets": {
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string",
+            "description": "Nome do arquivo de imagem do ativo",
+            "example": "d7dab70650a974be954c-maquina.png"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do ativo",
+            "example": "Bomba hidraulica"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição do ativo",
+            "example": "Bomba com motor 3cv da marca X"
+          },
+          "assetModel": {
+            "type": "string",
+            "description": "Modelo do ativo",
+            "example": "ZQV-001 2019"
+          },
+          "responsable": {
+            "type": "string",
+            "description": "Nome do profissional responsável pelo ativo",
+            "example": "Jose"
+          },
+          "status": {
+            "type": "string",
+            "description": "Em Alerta, Em Operação, Em Parada ou Desligado",
+            "example": "Em Operação"
+          },
+          "healthLevel": {
+            "type": "number",
+            "description": "Nível de saúde do equipamento. ( 0 até 100)",
+            "example": 95
+          }
+        },
+        "xml": {
+          "name": "companies"
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Insira o seu token JWT. (Utilize a rota Session)",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}
