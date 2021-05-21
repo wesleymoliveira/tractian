@@ -9,6 +9,7 @@ export const Wrapper = styled.main`
 
 export const Image = styled.img`
   max-width: 60rem;
+  max-height: 40rem;
   min-width: 40rem;
 `
 
