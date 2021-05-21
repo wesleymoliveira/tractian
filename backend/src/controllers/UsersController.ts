@@ -5,6 +5,10 @@ import Users, { UsersInterface } from "../models/Users";
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
+    const userExists = await Users.findOne({ name: req.body.name });
+    if (userExists) {
+      res.status(400).json({ error: "Este nome já foi utilizado" });
+    }
     let foundCompany = await Companies.findOne({
       name: req.params.company,
     });

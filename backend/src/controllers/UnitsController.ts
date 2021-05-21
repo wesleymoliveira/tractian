@@ -5,6 +5,10 @@ import { ObjectId } from "mongodb";
 
 const createUnit = async (req: Request, res: Response): Promise<void> => {
   try {
+    const unitExists = await Units.findOne({ name: req.body.name });
+    if (unitExists) {
+      res.status(400).json({ error: "Este nome já foi utilizado" });
+    }
     let foundCompany = await Companies.findOne({
       name: req.params.company,
     });
