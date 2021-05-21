@@ -2,31 +2,40 @@ import { ObjectId } from "mongodb";
 import { Response, Request } from "express";
 import Assets, { AssetsInterface } from "../models/Assets";
 import Units from "../models/Units";
+import Companies from "../models/Companies";
 
 const createAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     let foundUnit = await Units.findOne({
       name: req.params.unit,
     });
-    if (foundUnit) {
+    let foundCompany = await Companies.findOne({
+      _id: req.params.company,
+    });
+    if (foundUnit && foundCompany) {
       const body = req.body;
       const unitObjectId = new ObjectId(foundUnit._id);
+      const companyObjectId = new ObjectId(foundCompany._id);
 
       const asset: AssetsInterface = new Assets({
         image: req.file.filename,
         name: body.name,
         description: body.description,
         assetModel: body.assetModel,
-        responsible: body.responsible,
+        responsable: body.responsable,
         status: body.status,
         healthLevel: body.healthLevel,
         unit: unitObjectId,
+        company: companyObjectId,
       });
 
       await asset.save();
 
       foundUnit.assets?.push(asset._id);
       foundUnit.save();
+
+      foundCompany.assets?.push(asset._id);
+      foundCompany.save();
 
       res.status(201).json(asset);
     }
@@ -45,7 +54,11 @@ const deleteAsset = async (req: Request, res: Response): Promise<void> => {
       assets: id,
     });
 
-    if (Assets.findById(id) && foundUnit) {
+    let foundCompany = await Companies.findOne({
+      assets: id,
+    });
+
+    if (Assets.findById(id) && foundUnit && foundCompany) {
       await Assets.findByIdAndDelete(id);
 
       if (foundUnit.assets) {
@@ -53,6 +66,14 @@ const deleteAsset = async (req: Request, res: Response): Promise<void> => {
         if (index > -1) {
           foundUnit.assets?.splice(index, 1);
           foundUnit.save();
+        }
+      }
+
+      if (foundCompany.assets) {
+        var index = foundCompany.assets.indexOf(id);
+        if (index > -1) {
+          foundCompany.assets?.splice(index, 1);
+          foundCompany.save();
         }
       }
 
@@ -75,12 +96,35 @@ const getAllAssetsFromUnit = async (
 ): Promise<void> => {
   try {
     let foundUnit = await Units.findOne({
-      _id: req.params.unit,
+      _id: req.query.unit,
     });
+
     if (foundUnit) {
       const assets: AssetsInterface[] = await Assets.find({
         unit: foundUnit?._id,
-      }).populate("unit");
+      });
+
+      res.json(assets);
+    }
+  } catch (err) {
+    res.status(500);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+const getAllAssetsFromCompany = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    let foundCompany = await Companies.findOne({
+      name: req.params.company,
+    });
+    if (foundCompany) {
+      const assets: AssetsInterface[] = await Assets.find({
+        company: foundCompany?._id,
+      });
 
       res.json(assets);
     }
@@ -95,7 +139,7 @@ const getAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const foundAsset = await Assets.findOne({
       _id: req.params.id,
-    }).populate("unit");
+    }).populate(["unit", "company"]);
 
     if (foundAsset) {
       res.json(foundAsset);
@@ -111,4 +155,10 @@ const getAsset = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { createAsset, deleteAsset, getAllAssetsFromUnit, getAsset };
+export {
+  createAsset,
+  deleteAsset,
+  getAllAssetsFromCompany,
+  getAllAssetsFromUnit,
+  getAsset,
+};

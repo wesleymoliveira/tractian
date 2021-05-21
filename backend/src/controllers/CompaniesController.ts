@@ -3,6 +3,10 @@ import Companies, { CompaniesInterface } from "../models/Companies";
 
 const createCompany = async (req: Request, res: Response): Promise<void> => {
   try {
+    const companyExists = await Companies.findOne({ name: req.body.name });
+    if (companyExists) {
+      res.status(400).json({ error: "Este nome já foi utilizado" });
+    }
     const company: CompaniesInterface = new Companies(req.body);
     await company.save();
     res.status(201).json(company);
@@ -34,10 +38,10 @@ const deleteCompany = async (req: Request, res: Response): Promise<void> => {
 
 const getCompany = async (req: Request, res: Response): Promise<void> => {
   try {
-    const companyName = req.params.name;
+    const companyId = req.params.id;
 
     const company: CompaniesInterface[] = await Companies.find({
-      name: companyName,
+      _id: companyId,
     }).populate(["unities", "users"]);
     if (company[0]) {
       res.status(200);

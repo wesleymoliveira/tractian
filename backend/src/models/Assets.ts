@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { CompaniesInterface } from "./Companies";
 import { UnitsInterface } from "./Units";
 
 export interface AssetsInterface extends Document {
@@ -6,10 +7,11 @@ export interface AssetsInterface extends Document {
   name: String;
   description: String;
   assetModel: String;
-  responsible: String;
+  responsable: String;
   status: String;
   healthLevel: Number;
   unit: UnitsInterface;
+  company: CompaniesInterface;
 }
 
 const AssetsSchema: Schema = new Schema({
@@ -17,7 +19,7 @@ const AssetsSchema: Schema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   assetModel: { type: String, required: true },
-  responsible: { type: String, required: true },
+  responsable: { type: String, required: true },
   status: {
     type: String,
     required: true,
@@ -25,6 +27,7 @@ const AssetsSchema: Schema = new Schema({
   },
   healthLevel: { type: String, min: 0, max: 100, required: true },
   unit: { type: Schema.Types.ObjectId, ref: "Units" },
+  company: { type: Schema.Types.ObjectId, ref: "Companies" },
 });
 
 export default mongoose.model<AssetsInterface>("Assets", AssetsSchema);
