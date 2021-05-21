@@ -46,7 +46,7 @@ const Menu = ({ username = '' }: MenuProps) => {
             <Notifications />
             <MediaMatch greaterThan="medium">
               {!username ? (
-                <Link href="/sign-in" passHref>
+                <Link href="/login" passHref>
                   <Button as="a">Login</Button>
                 </Link>
               ) : (
@@ -78,13 +78,13 @@ const Menu = ({ username = '' }: MenuProps) => {
 
             {!username && (
               <S.RegisterBox>
-                <Link href="/sign-in" passHref>
+                <Link href="/login" passHref>
                   <Button as="a" fullWidth size="large">
                     Login
                   </Button>
                 </Link>
                 <span>ou</span>
-                <Link href="/sign-up">
+                <Link href="/register">
                   <S.CreateAccount>Registre-se agora</S.CreateAccount>
                 </Link>
               </S.RegisterBox>

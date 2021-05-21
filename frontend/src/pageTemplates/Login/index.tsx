@@ -88,7 +88,7 @@ const LoginTemplate = ({ companies }: CompaniesTemplateProps) => {
                 <Button type="submit" fullWidth>
                   Fazer login
                 </Button>
-                <Link href="/sign-up" passHref>
+                <Link href="/register" passHref>
                   <Button minimalist as="a">
                     Ainda não cadastrou sua empresa?
                     <strong> Cadastre agora!</strong>

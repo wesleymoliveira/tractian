@@ -5,6 +5,7 @@ import { FormWrapper } from '../Form'
 import * as S from './styles'
 
 import Button from 'components/Button'
+import api from 'services/api'
 
 const FormAddCompany = () => {
   const [name, setName] = useState('')
@@ -15,6 +16,13 @@ const FormAddCompany = () => {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
+    const data = {
+      name: name,
+    }
+    console.log(data)
+    console.log(name)
+
+    await api.post('companies', data)
 
     resetFields()
     alert('Empresa cadastrada com sucesso.')
