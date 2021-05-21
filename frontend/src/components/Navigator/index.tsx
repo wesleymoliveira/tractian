@@ -17,7 +17,7 @@ const Navigator = ({ activeLink }: NavigatorProps) => {
         </S.Link>
       </Link>
       <Link href="/assets" passHref>
-        <S.Link isActive={activeLink === '/assets'} title="Ativos">
+        <S.Link isActive={activeLink?.includes('/assets')} title="Ativos">
           <Dashboard size={24} />
           <span>Ativos</span>
         </S.Link>

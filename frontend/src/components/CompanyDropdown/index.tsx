@@ -14,13 +14,13 @@ const CompanyDropdown = ({ companyName }: CompanyDropdownProps) => (
     title={
       <>
         <AccountCircle size={24} />
-        <S.Companyname>{companyName}</S.Companyname>
+        <S.Companyname>{companyName.toUpperCase()}</S.Companyname>
         <ChevronDown size={24} />
       </>
     }
   >
     <S.Nav>
-      <Link href="/companys/profile" passHref>
+      <Link href="/mycompany" passHref>
         <S.WrapperLink>
           <AccountCircle />
           <span>Meu perfil</span>
