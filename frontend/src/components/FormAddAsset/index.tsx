@@ -10,17 +10,19 @@ import { FiPlus, FiXCircle } from 'react-icons/fi'
 import { FormError, FormWrapper } from 'components/Form'
 
 import { FieldErrors, validateAssetToAdd } from '../../utils/errorHelper'
+import { useModal } from 'context/ModalContext'
 
 export type AssetProps = {
   name: string
   description: string
   assetModel: string
-  responsible: string
+  responsable: string
   status: string
   healthLevel: string
 }
 
 const FormAddAsset = () => {
+  const { changeModalView } = useModal()
   const router = useRouter()
   const [formError, setFormError] = useState('')
   const [fieldError, setFieldError] = useState<FieldErrors>({})
@@ -28,7 +30,7 @@ const FormAddAsset = () => {
     name: '',
     description: '',
     assetModel: '',
-    responsible: '',
+    responsable: '',
     status: '',
     healthLevel: '',
   })
@@ -42,7 +44,7 @@ const FormAddAsset = () => {
         name: '',
         description: '',
         assetModel: '',
-        responsible: '',
+        responsable: '',
         status: '',
         healthLevel: '',
       })
@@ -67,7 +69,7 @@ const FormAddAsset = () => {
     data.append('image', image)
     data.append('name', formValues.name)
     data.append('description', formValues.description)
-    data.append('responsible', formValues.responsible)
+    data.append('responsible', formValues.responsable)
     data.append('status', formValues.status)
     data.append('healthLevel', formValues.healthLevel)
 
@@ -77,6 +79,7 @@ const FormAddAsset = () => {
     alert('Ativo cadastrado com sucesso!')
 
     router.push('/units')
+    changeModalView()
   }
 
   const handleInput = (field: string, value: string) => {
@@ -88,7 +91,6 @@ const FormAddAsset = () => {
       return
     }
     setImage(e.target.files[0])
-    console.log(image)
     setPreviewImage(URL.createObjectURL(e.target.files[0]))
   }
 
@@ -145,7 +147,7 @@ const FormAddAsset = () => {
           name="Responsável"
           error={fieldError?.responsible}
           onInputChange={(v) => handleInput('responsible', v)}
-          value={formValues.responsible}
+          value={formValues.responsable}
           label="Responsável"
           type="text"
         />
@@ -163,13 +165,14 @@ const FormAddAsset = () => {
           onInputChange={(v) => handleInput('healthLevel', v)}
           value={formValues.healthLevel}
           label="Nível de Saúde"
-          type="text"
+          type="number"
         />
 
         <S.ButtonsWrapper>
           <Button
             type="reset"
             onClick={() => {
+              changeModalView()
               resetFields()
             }}
           >
