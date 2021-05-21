@@ -4,6 +4,7 @@ import Menu from 'components/Menu'
 import Navigator from 'components/Navigator'
 
 import * as S from './styles'
+import { Container } from 'next/app'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
@@ -17,7 +18,9 @@ const Base = ({ children }: BaseTemplateProps) => {
     <S.Wrapper>
       <Menu username={session?.user?.name} />
       <Navigator activeLink={asPath} />
-      <S.Content>{children}</S.Content>
+      <Container>
+        <S.Content>{children}</S.Content>
+      </Container>
     </S.Wrapper>
   )
 }
