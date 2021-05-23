@@ -653,6 +653,125 @@
           }
         }
       }
+    },
+
+    "/:company/notifications/": {
+      "post": {
+        "tags": ["notifications"],
+        "summary": "Cria uma nova notificação para a empresa",
+        "operationId": "createNotification",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Id da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/notifications"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "read": false,
+                    "_id": "60a7fd4d48c96b2c246ea9f5",
+                    "content": "Vibração anômala detectada",
+                    "company": "60a7f6b2e8e0b22961037d30",
+                    "createdAt": "2021-05-21T18:34:53.127Z",
+                    "updatedAt": "2021-05-21T18:34:53.127Z",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "get": {
+        "tags": ["notifications"],
+        "summary": "Retorna as notificações da empresa fornecida nos params",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "path",
+            "description": "Informe o NOME da empresa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notifications"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/:id": {
+      "put": {
+        "tags": ["notifications"],
+        "summary": "Edita a notificação para lida",
+        "operationId": "updateNotification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da notificação ",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto esperado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/notifications"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
     }
   },
   "components": {
@@ -750,6 +869,24 @@
         },
         "xml": {
           "name": "companies"
+        }
+      },
+      "notifications": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Conteúdo da notificação",
+            "example": "Vibração anômala detectada."
+          },
+          "read": {
+            "type": "boolean",
+            "description": "Já foi lida?",
+            "example": false
+          }
+        },
+        "xml": {
+          "name": "notifications"
         }
       }
     },

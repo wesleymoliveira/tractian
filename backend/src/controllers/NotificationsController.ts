@@ -23,9 +23,12 @@ const createNotification = async (
       await notification.save();
 
       res.status(201).json(notification);
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -45,9 +48,12 @@ const updateNotification = async (
       );
 
       res.json(notification);
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -58,13 +64,17 @@ const getNotifications = async (req: Request, res: Response): Promise<void> => {
     let foundCompany = await Companies.findOne({
       name: req.params.company,
     });
-
-    const notification: NotificationsInterface[] = await Notifications.find({
-      company: foundCompany?._id,
-    });
-    res.json(notification);
+    if (foundCompany) {
+      const notification: NotificationsInterface[] = await Notifications.find({
+        company: foundCompany?._id,
+      });
+      res.json(notification);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
+    }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
