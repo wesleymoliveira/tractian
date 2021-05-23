@@ -1,6 +1,7 @@
 import NextNprogress from 'nextjs-progressbar'
 import { Provider as AuthProvider } from 'next-auth/client'
 import { AppProps } from 'next/app'
+import 'react-perfect-scrollbar/dist/css/styles.css'
 import { ThemeProvider } from 'styled-components'
 import { ModalProvider } from '../context/ModalContext'
 import Head from 'next/head'
