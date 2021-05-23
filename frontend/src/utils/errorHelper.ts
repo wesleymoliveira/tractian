@@ -14,7 +14,7 @@ const fieldsValidations = {
     'string.empty': `Modelo do ativo não pode estar vazio`,
     'any.required': `Modelo é obrigatório.`,
   }),
-  responsible: Joi.string().required().messages({
+  responsable: Joi.string().required().messages({
     'string.empty': `Responsável pelo ativo não pode estar vazio`,
     'any.required': `Responsável é obrigatório.`,
   }),
