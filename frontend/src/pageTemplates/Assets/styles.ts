@@ -13,6 +13,9 @@ export const Main = styled(Container)`
     display: grid;
     grid-template-columns: 40rem 1fr;
     gap: ${theme.spacings.xxsmall};
+    div{
+      max-width: 1100px;
+    }
   `}
   `}
 `
@@ -29,7 +32,7 @@ export const WrapperSearch = styled.div`
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `
 export const WrapperButton = styled.div`
   ${ButtonStyles.Wrapper} {
