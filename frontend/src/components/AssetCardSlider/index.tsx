@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from '@styled-icons/material-outlined'
 import AssetCard, { AssetCardProps } from 'components/AssetCard'
 import Slider, { SliderSettings } from 'components/Slider'
 import * as S from './styles'
@@ -40,6 +41,8 @@ const settings: SliderSettings = {
       },
     },
   ],
+  nextArrow: <ArrowRight aria-label="próximo" />,
+  prevArrow: <ArrowLeft aria-label="anterior" />,
 }
 
 const AssetCardSlider = ({ assets }: AssetCardSliderProps) => (

@@ -26,7 +26,24 @@ export const Wrapper = styled.section`
         margin: 0 -${theme.spacings.xsmall};
       }
     `}
-
+    .slick-prev,
+    .slick-next {
+      display: block;
+      color: ${theme.colors.primary};
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: 6rem;
+      height: 6rem;
+      padding: 0;
+      transform: translate(0, -50%);
+    }
+    .slick-prev {
+      left: -${theme.spacings.xxlarge};
+    }
+    .slick-next {
+      right: ${theme.spacings.small};
+    }
     .slick-prev.slick-disabled,
     .slick-next.slick-disabled {
       visibility: hidden;
