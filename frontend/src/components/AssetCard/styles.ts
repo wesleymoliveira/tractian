@@ -6,6 +6,7 @@ export const Wrapper = styled.article`
     display: flex;
     border: 0.1rem solid ${theme.colors.lightGray};
     height: 100%;
+    min-width: 45rem;
     flex-direction: column;
     justify-content: center;
     padding: ${theme.spacings.xsmall};

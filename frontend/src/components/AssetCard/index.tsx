@@ -1,4 +1,6 @@
 import Heading from 'components/Heading'
+import HealthLevelSlider from 'components/HealthLevelSlider'
+import { useModal } from 'context/ModalContext'
 import * as S from './styles'
 
 export type AssetCardProps = {
@@ -13,7 +15,6 @@ export type AssetCardProps = {
 }
 
 const AssetCard = ({
-  _id,
   image,
   assetModel,
   description,
@@ -22,6 +23,7 @@ const AssetCard = ({
   responsable,
   status,
 }: AssetCardProps) => {
+  const { changeModalView } = useModal()
   return (
     <S.Wrapper>
       <S.titleWrapper>
@@ -32,6 +34,7 @@ const AssetCard = ({
       <S.ContentWrapper>
         <S.LeftBlock>
           <S.Image
+            onClick={changeModalView}
             src={`http://localhost:3333/images/${image}`}
             alt={'Foto do Ativo'}
             role="img"
@@ -47,7 +50,11 @@ const AssetCard = ({
           <strong>Status:</strong>
           <span>{status}</span>
           <strong>Saúde:</strong>
-          <span>{healthLevel}</span>
+          <HealthLevelSlider
+            disabled
+            initialValue={healthLevel}
+            value={healthLevel}
+          />
         </S.RightBlock>
       </S.ContentWrapper>
     </S.Wrapper>
