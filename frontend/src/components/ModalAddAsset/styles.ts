@@ -32,7 +32,7 @@ export const ModalWrapper = styled.div`
     background: ${theme.colors.white};
     display: flex;
     flex-direction: column;
-    align-items: center;
+    padding: ${theme.spacings.medium};
   `}
 `
 

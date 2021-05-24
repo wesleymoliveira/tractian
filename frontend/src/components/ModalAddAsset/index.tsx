@@ -13,7 +13,7 @@ const ModalAddAsset = () => {
         <S.ModalWrapper>
           <S.TitleWrapper>
             <FiPlus size={24} />
-            <h1> Adicionar novo Asset</h1>
+            <h1> Adicionar Ativo</h1>
           </S.TitleWrapper>
           <FormAddAsset />
         </S.ModalWrapper>
