@@ -26,7 +26,7 @@ const createSession = async (req: Request, res: Response): Promise<void> => {
       }),
     });
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }

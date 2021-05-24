@@ -8,6 +8,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     const userExists = await Users.findOne({ name: req.body.name });
     if (userExists) {
       res.status(400).json({ error: "Este nome já foi utilizado" });
+      return;
     }
     let foundCompany = await Companies.findOne({
       name: req.params.company,
@@ -26,9 +27,12 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       foundCompany.save();
 
       res.status(201).json(user);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -60,7 +64,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
       res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -70,10 +74,14 @@ const getUser = async (req: Request, res: Response): Promise<void> => {
     const foundUser = await Users.findOne({
       _id: req.params.user,
     }).populate("company");
-
-    res.json(foundUser);
+    if (foundUser) {
+      res.json(foundUser);
+    } else {
+      res.status(404);
+      res.json({ erro: "Usuário não en contrado" });
+    }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -86,14 +94,17 @@ const getAllUsersFromCompany = async (
     let foundCompany = await Companies.findOne({
       name: req.params.company,
     });
-
-    const users: UsersInterface[] = await Users.find({
-      company: foundCompany?._id,
-    }).populate(["company"]);
-
-    res.json(users);
+    if (foundCompany) {
+      const users: UsersInterface[] = await Users.find({
+        company: foundCompany?._id,
+      }).populate(["company"]);
+      res.json(users);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
+    }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }

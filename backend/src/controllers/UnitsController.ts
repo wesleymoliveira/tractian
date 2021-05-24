@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import slugify from "slugify";
 import Units, { UnitsInterface } from "../models/Units";
 import Companies from "../models/Companies";
 import { ObjectId } from "mongodb";
@@ -8,6 +9,7 @@ const createUnit = async (req: Request, res: Response): Promise<void> => {
     const unitExists = await Units.findOne({ name: req.body.name });
     if (unitExists) {
       res.status(400).json({ error: "Este nome já foi utilizado" });
+      return;
     }
     let foundCompany = await Companies.findOne({
       name: req.params.company,
@@ -16,7 +18,7 @@ const createUnit = async (req: Request, res: Response): Promise<void> => {
       const companyObjectId = new ObjectId(foundCompany._id);
       const body = req.body;
       const unit: UnitsInterface = new Units({
-        name: body.name,
+        name: slugify(body.name).toLowerCase(),
         company: companyObjectId,
       });
       await unit.save();
@@ -25,9 +27,12 @@ const createUnit = async (req: Request, res: Response): Promise<void> => {
       foundCompany.save();
 
       res.status(201).json(unit);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -60,7 +65,7 @@ const deleteUnit = async (req: Request, res: Response): Promise<void> => {
       res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -71,10 +76,14 @@ const getUnit = async (req: Request, res: Response): Promise<void> => {
     let foundUnit = await Units.findOne({
       _id: req.params.unit,
     }).populate(["assets", "company"]);
-
-    res.json(foundUnit);
+    if (foundUnit) {
+      res.json(foundUnit);
+    } else {
+      res.status(404);
+      res.json({ erro: "unidade não encontrada" });
+    }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -88,13 +97,17 @@ const getUnitsByCompany = async (
     let foundCompany = await Companies.findOne({
       name: req.params.company,
     });
-
-    const units: UnitsInterface[] = await Units.find({
-      company: foundCompany?._id,
-    }).populate(["assets", "company"]);
-    res.json(units);
+    if (foundCompany) {
+      const units: UnitsInterface[] = await Units.find({
+        company: foundCompany?._id,
+      }).populate(["assets", "company"]);
+      res.json(units);
+    } else {
+      res.status(404);
+      res.json({ erro: "Empresa não encontrada" });
+    }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
