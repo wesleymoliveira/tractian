@@ -10,7 +10,7 @@ const createAsset = async (req: Request, res: Response): Promise<void> => {
       name: req.params.unit,
     });
     let foundCompany = await Companies.findOne({
-      _id: req.params.company,
+      name: req.params.company,
     });
     if (foundUnit && foundCompany) {
       const body = req.body;
@@ -38,18 +38,20 @@ const createAsset = async (req: Request, res: Response): Promise<void> => {
       foundCompany.save();
 
       res.status(201).json(asset);
+    } else {
+      res.status(500);
+      res.json({ erro: "Empresa ou unidade não encontradas" });
     }
   } catch (err) {
-    res.status(500);
-    res.end();
+    res.status(500).json(err);
     console.error("Error message:", err);
+    res.end();
   }
 };
 
 const deleteAsset = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = req.params.id;
-
     let foundUnit = await Units.findOne({
       assets: id,
     });
@@ -105,9 +107,12 @@ const getAllAssetsFromUnit = async (
       });
 
       res.json(assets);
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -127,9 +132,12 @@ const getAllAssetsFromCompany = async (
       });
 
       res.json(assets);
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -149,7 +157,49 @@ const getAsset = async (req: Request, res: Response): Promise<void> => {
       res.json({ erro: "Ativo não encontrado" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
+    res.end();
+    console.error("Error message:", err);
+  }
+};
+
+const getAssetStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    let foundCompany = await Companies.findOne({
+      name: req.params.company,
+    });
+    if (foundCompany) {
+      const qtdEmOperacao = await Assets.countDocuments({
+        company: foundCompany?._id,
+        status: "Em Operação",
+      });
+      const qtdEmParada = await Assets.countDocuments({
+        company: foundCompany?._id,
+        status: "Em Parada",
+      });
+      const qtdEmAlerta = await Assets.countDocuments({
+        company: foundCompany?._id,
+        status: "Em Alerta",
+      });
+      const qtdDesligado = await Assets.countDocuments({
+        company: foundCompany?._id,
+        status: "Desligado",
+      });
+      const total = qtdDesligado + qtdEmAlerta + qtdEmOperacao + qtdEmParada;
+
+      res.json({
+        qtdEmOperacao: qtdEmOperacao,
+        qtdEmParada: qtdEmParada,
+        qtdDesligado: qtdDesligado,
+        qtdEmAlerta: qtdEmAlerta,
+        total: total,
+      });
+    } else {
+      res.status(404);
+      res.json({ erro: "ID não encontrada" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -161,4 +211,5 @@ export {
   getAllAssetsFromCompany,
   getAllAssetsFromUnit,
   getAsset,
+  getAssetStatus,
 };

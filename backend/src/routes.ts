@@ -44,6 +44,7 @@ routes.post(
 routes.delete("/assets/:id/", AssetsController.deleteAsset);
 routes.get("/assets/", AssetsController.getAllAssetsFromUnit);
 routes.get("/:company/assets", AssetsController.getAllAssetsFromCompany);
+routes.get("/:company/status", AssetsController.getAssetStatus);
 routes.get("/assets/:id/", AssetsController.getAsset);
 
 //notifications
