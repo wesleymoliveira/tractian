@@ -53,7 +53,9 @@ const Notifications = () => {
       }))
       setNotifications(data)
     }
-    loadNotifications()
+    if (session) {
+      loadNotifications()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
