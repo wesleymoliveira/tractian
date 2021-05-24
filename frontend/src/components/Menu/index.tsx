@@ -63,13 +63,6 @@ const Menu = ({ username = '' }: MenuProps) => {
               onClick={() => setIsOpen(false)}
             />
             <S.MenuNav>
-              {!!username && (
-                <>
-                  <Link href="/company/" passHref>
-                    <S.MenuLink>Minha empresa</S.MenuLink>
-                  </Link>
-                </>
-              )}
               <S.MenuLink onClick={() => signOut()}>
                 <ExitToApp />
                 Sair
