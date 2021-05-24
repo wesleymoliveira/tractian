@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import slugify from "slugify";
 import Companies, { CompaniesInterface } from "../models/Companies";
 
 const createCompany = async (req: Request, res: Response): Promise<void> => {
@@ -6,12 +7,16 @@ const createCompany = async (req: Request, res: Response): Promise<void> => {
     const companyExists = await Companies.findOne({ name: req.body.name });
     if (companyExists) {
       res.status(400).json({ error: "Este nome já foi utilizado" });
+      return;
     }
-    const company: CompaniesInterface = new Companies(req.body);
+
+    const company: CompaniesInterface = new Companies({
+      name: slugify(req.body.name).toLowerCase(),
+    });
     await company.save();
     res.status(201).json(company);
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -30,7 +35,7 @@ const deleteCompany = async (req: Request, res: Response): Promise<void> => {
       res.json({ erro: "ID não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -51,7 +56,7 @@ const getCompany = async (req: Request, res: Response): Promise<void> => {
       res.json({ erro: "Empresa não encontrada" });
     }
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
@@ -65,7 +70,7 @@ const getAllCompanies = async (req: Request, res: Response): Promise<void> => {
     ]);
     res.json(companies);
   } catch (err) {
-    res.status(500);
+    res.status(500).json(err);
     res.end();
     console.error("Error message:", err);
   }
