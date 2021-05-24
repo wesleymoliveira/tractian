@@ -26,7 +26,7 @@ const AssetsStatus = ({ values }: AssetsStatusProps) => {
       y: 100,
     },
     title: {
-      text: `Ativos <br> ${values.total} </br>`,
+      text: `Ativos <br> cadastrados</br> <br>${values.total} </br>`,
       align: 'center',
       verticalAlign: 'middle',
     },
@@ -74,7 +74,7 @@ const AssetsStatus = ({ values }: AssetsStatusProps) => {
       },
     ],
   }
-  console.log(values)
+
   return (
     <S.Wrapper>
       <HighchartsReact highcharts={Highcharts} options={options} />
